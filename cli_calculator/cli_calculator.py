@@ -37,8 +37,16 @@ while True:
         except ValueError:
             print('Character not allowed\n')
 
-        if chosen_operator == "+":
-            total = add(num1, num2)
-            print(f'Total: {total}\n')
-        else:
-            print('Invalid number')
+    if chosen_operator == "+":
+        total = add(num1, num2)
+    elif chosen_operator == "-":
+        total = sub(num1, num2)
+    elif chosen_operator == "*":
+        total = mul(num1, num2)
+    elif chosen_operator == "/":
+        total = div(num1, num2)
+
+print(f'Total: {total}\n')
+
+    else:
+        print('Invalid number')
