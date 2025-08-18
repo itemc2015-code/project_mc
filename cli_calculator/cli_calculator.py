@@ -20,21 +20,25 @@ def operate():
         else:
             print('Invalid operator')
 
-class error_input(Exception):
-    pass
+# class error_input(Exception):
+#     pass
 
 while True:
 
     print('=== This is a CLI Calculator 🔢 ===\n Choose "+,-,/,*"')
     chosen_operator = operate()
 
-    try:
-        num1 = float(input('1st number: '))
-        num2 = float(input('2nd number: '))
-        if chosen_operator == "+":
-            print('Total: ' + str(add(num1, num2)) + "\n")
-        else:
-            raise error_input('Invalid number')
+    while True:
+        try:
+            num1 = float(input('1st number: '))
+            num2 = float(input('2nd number: '))
+            break
 
-    except error_input as error:
-        print(f'{error}, Character not allowed\n')
+        except ValueError:
+            print('Character not allowed\n')
+
+        if chosen_operator == "+":
+            total = add(num1, num2)
+            print(f'Total: {total}\n')
+        else:
+            print('Invalid number')
