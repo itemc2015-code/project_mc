@@ -20,8 +20,8 @@ def operate():
         else:
             print('Invalid operator')
 
-# class error_input(Exception):
-#     pass
+class error_input(Exception):
+    pass
 
 while True:
 
@@ -44,9 +44,9 @@ while True:
     elif chosen_operator == "*":
         total = mul(num1, num2)
     elif chosen_operator == "/":
+        if num2 == 0:
+            raise error_input("It is not possible")
         total = div(num1, num2)
 
-print(f'Total: {total}\n')
+    print(f'Total: {total}\n')
 
-    else:
-        print('Invalid number')
