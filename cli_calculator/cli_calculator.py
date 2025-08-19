@@ -48,5 +48,9 @@ while True:
             raise error_input("It is not possible")
         total = div(num1, num2)
 
-    print(f'Total: {total}\n')
+    print(f'Total: {total:.2f}\n')
+    if input('Do you want to try again? "y" for yes or any key to quit: ').lower().strip() == 'y':
+        continue
+    else:
+        break
 
