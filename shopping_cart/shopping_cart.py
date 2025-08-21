@@ -31,6 +31,8 @@ class Order:
                     order_lists.append(menu_lists[customer_orders-1])
                     print(order_lists) ##check if the order list is correct
                     print(menu_lists[customer_orders-1]) ##check if the order is correct
+                else:
+                    print(f'Invalid, {customer_orders} Not found')
             except ValueError:
                 print('Invalid input')
                 continue
