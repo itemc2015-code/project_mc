@@ -7,11 +7,11 @@ with open('cart_list.json','r') as f:
 
 menu_lists = []
 order_lists = []
+
 class Order:
     def __init__(self,numbers=None,counts=None):
         self.numbers = numbers
         self.counts = counts
-        #self.menulists = menulists if menulists is not None else []
     def menus(self):
         print('\n    🛒 WELCOME TO SHOPPING CART ONLINE 🛒')
         print(f"{'NO.'}{'📃 ITEM':>17}{'💲PRICE':>20}")
@@ -25,17 +25,25 @@ class Order:
     def orders(self,customer_orders=None):
         while True:
             try:
-                customer_orders = int(input('Number to add to cart🛒: '))
+                customer_orders = int(input('\nNumber to add to cart🛒 or "q" to quit: '))
                 if 1 <= customer_orders <= len(menu_lists):
-                    print(f"Order added: {customer_orders}")
+                    print("\nOrder added:")
                     order_lists.append(menu_lists[customer_orders-1])
-                    print(order_lists) ##check if the order list is correct
-                    print(menu_lists[customer_orders-1]) ##check if the order is correct
+                    self.list_order()
+                    #print(order_lists) ##check if the order list is correct
+                    #print(menu_lists[customer_orders-1]) ##check if the order is correct
                 else:
                     print(f'Invalid, {customer_orders} Not found')
             except ValueError:
                 print('Invalid input')
                 continue
+    def list_order(self):
+        total_price = 0
+        print(f'{'ITEM':>8}{'PRICE':>13} ')
+        for num,o in enumerate(order_lists):
+            print(f'{num + 1}. {o[1]} ------ ${o[2]:<10.2f}')
+            total_price += o[2]
+        print(f'💸TOTAL: ${total_price}')
 
 
 order1 = Order()
