@@ -1,0 +1,20 @@
+[
+    {
+        "no": 1,
+        "item": "Oranges",
+        "price": 110,
+        "count": 2
+    },
+    {
+        "no": 2,
+        "item": "Sugar",
+        "price": 65,
+        "count": 10
+    },
+    {
+        "no": 3,
+        "item": "Rice",
+        "price": 100,
+        "count": 20
+    }
+]
