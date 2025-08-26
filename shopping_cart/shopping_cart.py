@@ -1,5 +1,6 @@
-# with open('cart_list.json','r') as f:
-#     lists = json.load(f)
+import json
+import os
+import time
 
 menu_lists = []
 class Order:
@@ -11,6 +12,7 @@ class Order:
         self.numbers = 0
         self.order_lists = []
         self.order_storage = []
+        self.total_price = 0
 
         with open('cart_list.json', 'r') as f:
             self.lists = json.load(f)
@@ -29,9 +31,9 @@ class Order:
         print()
     def orders(self,customer_orders=None):
         while True:
-            customer_orders = input('\nNumber to add to cart🛒 or "q" to quit: ')
+            customer_orders = input('Number to add to cart🛒, "d" for done or "q" to quit: ')
             if customer_orders == 'q':
-                print('Thank you for shopping 🛒\n')
+                print('\nThank you for shopping 🛒\n')
                 self.order_storage.clear()
                 break
             try:
@@ -45,6 +47,7 @@ class Order:
             except ValueError:
                 print('❌ Invalid input')
                 continue
+
     def list_order(self):
         for num,o in enumerate(self.order_lists):
             self.stored = {"no":num+1,"item":o[1],"price":o[2],"count":self.counts}
@@ -53,7 +56,6 @@ class Order:
             json.dump(self.order_storage,f,indent=4)
         self.view_order()
     def view_order(self):
-        total_price = 0
         total_items = 0
         if os.path.exists('order_lists.json'):
             if os.path.getsize('order_lists.json') == 0:
@@ -66,16 +68,40 @@ class Order:
                     print(f'{"ITEM":>5}{"PRICE":>13}{"QTY":>13}{"TOTAL":>13} ')
                     for v in save_orders:
                         print(f'{v["item"].ljust(13)}${str(v["price"]).ljust(14)}{str(v["count"]).ljust(10)} {v["count"]*v["price"]}')
-                        total_price += int(v["count"]) * int(v["price"])
+                        self.total_price += int(v["count"]) * int(v["price"])
                         total_items += int(v["count"])
-                    print(f'Total Order: ${total_price}')
+                    print(f'Total Order: ${self.total_price}')
                     print(f'Total Items: {total_items} ')
         else:
             print('File not found')
 
+class Payment(Order):
+    def cash(self,userpayment=None):
+        self.userpayment = userpayment
+
+        try:
+            print(f'Amount to pay: ${self.total_price}')
+            self.userpayment = int(input('Customer cash: $'))
+            time.sleep(1)
+            print(f'Received ${self.userpayment}')
+            if self.userpayment < self.total_price:
+                print('Invalid')
+            else:
+                total = self.userpayment - self.total_price
+                print(f'Total changed: ${total}')
+        except ValueError:
+            print(f'{self.userpayment} is invalid')
+
+            # if customer_orders == "d":
+            #     self.cash(self.userpayment)
+            # else:
+            #     print('Invalid')
+
 order1 = Order()
 order1.menus()
 order1.orders()
+pay1 = Payment()
+pay1.cash()
 
 '''
 cash and changes
