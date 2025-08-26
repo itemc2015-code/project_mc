@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-print('Shopping cart')
-=======
-
-import json
-import os
-
 # with open('cart_list.json','r') as f:
 #     lists = json.load(f)
 
@@ -89,9 +82,3 @@ cash and changes
 debit or credit
 cash or atm
 '''
-
-
-
-
-
->>>>>>> c90f97bc833b1eca65c9da9a0aa440e5bbd1a3f3
