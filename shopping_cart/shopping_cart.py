@@ -36,6 +36,9 @@ class Order:
                 print('\nThank you for shopping 🛒\n')
                 self.order_storage.clear()
                 break
+            elif customer_orders == 'd':
+                print('===SUMMARY===')
+                break
             try:
                 customer_orders = int(customer_orders)
                 self.counts = int(input('Count: '))
@@ -101,6 +104,7 @@ order1 = Order()
 order1.menus()
 order1.orders()
 pay1 = Payment()
+pay1.total_price
 pay1.cash()
 
 '''

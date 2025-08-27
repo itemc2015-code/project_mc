@@ -1,14 +1,14 @@
 [
     {
         "no": 1,
-        "item": "Potatoes",
-        "price": 60,
-        "count": 25
+        "item": "Bread",
+        "price": 50,
+        "count": 5
     },
     {
         "no": 2,
-        "item": "Tea",
-        "price": 70,
-        "count": 1
+        "item": "Eggs",
+        "price": 90,
+        "count": 5
     }
 ]
