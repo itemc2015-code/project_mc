@@ -83,10 +83,12 @@ class Discount(Order):
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
                 self.total_discount = self.total_price * 0.05
-                self.total_price = self.total_price - self.total_discount
+                self.total_discount_price = self.total_price - self.total_discount
                 print(f'Discounted ${self.total_discount:,.2f}')
                 break
             elif disc == 'n':
+                self.total_discount = 0.00
+                self.total_discount_price = self.total_price
                 break
             else:
                 print('Invalid ❌')
@@ -103,7 +105,7 @@ class Payment(Discount):
                     continue
                 else:
                     os.system('cls')
-                    total = self.userpayment - self.total_price
+                    total = self.userpayment - self.total_discount_price
                     with open('order_lists.json', 'r') as f:
                         save_orders = json.load(f)
                         print("\n================== Shopping Cart ==================")
@@ -113,7 +115,8 @@ class Payment(Discount):
                                 f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
                         print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
-                    print(f'Discounted: ${self.total_discount:,.2f}')
+                    print(f'Discount(5%): -${self.total_discount:,.2f}')
+                    print(f'Grand Total: ${self.total_discount_price:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
                     print(f'Change: ${total:,.2f}')
@@ -137,6 +140,5 @@ if __name__ == "__main__":
         print('\nExiting...\n')
 
 '''
-put .00
-discount for senior
+
 '''
