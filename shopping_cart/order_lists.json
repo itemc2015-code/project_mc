@@ -1,20 +1,8 @@
 [
     {
         "no": 1,
-        "item": "Bananas",
-        "price": 90,
-        "count": 34
-    },
-    {
-        "no": 2,
-        "item": "Salt",
-        "price": 25,
-        "count": 32
-    },
-    {
-        "no": 3,
         "item": "Bread",
         "price": 50,
-        "count": 4
+        "count": 434
     }
 ]

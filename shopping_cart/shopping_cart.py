@@ -76,25 +76,43 @@ class Order:
             print('File not found')
 
 class Discount(Order):
-    def __init__(self,total_discount=None):
+    def __init__(self,total_discount=None,discount_type=None):
+        super().__init__(numbers=None,counts=None,stored=None)
         self.total_discount = total_discount
     def discount(self):
+        normal_discount = 0.05
+        member_discount = 0.1
+        senior_discount = 0.2
         while True:
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
-                self.total_discount = self.total_price * 0.05
-                self.total_discount_price = self.total_price - self.total_discount
-                print(f'Discounted ${self.total_discount:,.2f}')
-                break
+                self.discount_type = input('\n1.Normal\n2.Member\n3.Senior\nDiscount type (1-3): ')
+                if self.discount_type == "1":
+                    self.total_discount = self.total_price * normal_discount
+                    self.total_discount_price = self.total_price - self.total_discount
+                    print(f'Discount({normal_discount*100:.0f}%): ${self.total_discount:,.2f}')
+                    break
+                elif self.discount_type == "2":
+                     self.total_discount = self.total_price * member_discount
+                     self.total_discount_price = self.total_price - self.total_discount
+                     print(f'Discount({member_discount*100:.0f}%): ${self.total_discount:,.2f}')
+                     break
+                elif self.discount_type == "3":
+                     self.total_discount = self.total_price * senior_discount
+                     self.total_discount_price = self.total_price - self.total_discount
+                     print(f'Discount({senior_discount*100:.0f}%): ${self.total_discount:,.2f}')
+                     break
+                else:
+                    print('Invalid ❌')
             elif disc == 'n':
-                self.total_discount = 0.00
-                self.total_discount_price = self.total_price
-                break
+                 self.total_discount = 0.00
+                 self.total_discount_price = self.total_price
+                 break
             else:
                 print('Invalid ❌')
-
 class Payment(Discount):
     def cash(self,userpayment=None):
+        discount_lists = [5, 10, 20]
         self.userpayment = userpayment
         self.discount()
         while True:
@@ -115,6 +133,7 @@ class Payment(Discount):
                                 f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
                         print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
+                    #discount_options = [d for d in discount_lists if d == ]
                     print(f'Discount(5%): -${self.total_discount:,.2f}')
                     print(f'Grand Total: ${self.total_discount_price:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
@@ -140,5 +159,5 @@ if __name__ == "__main__":
         print('\nExiting...\n')
 
 '''
-
+create variable for discount
 '''
