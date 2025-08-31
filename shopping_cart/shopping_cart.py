@@ -8,12 +8,14 @@ class Order:
         self.numbers = numbers
         self.counts = counts
         self.stored = stored
+        self.menu_lists = menu_lists
         self.counts = 0
         self.numbers = 0
         self.order_lists = []
         self.order_storage = []
         self.total_price = 0
         self.total_items = 0
+
 
         with open('cart_list.json', 'r') as f:
             self.lists = json.load(f)
@@ -27,7 +29,7 @@ class Order:
         print('-' * 48)
         for num, l1 in enumerate(self.lists):
             menulists1 = num + 1, l1['item'], l1['price']
-            menu_lists.append(menulists1)
+            self.menu_lists.append(menulists1)
             print(f"{num + 1:<10}       {l1['item']:<15}      ${str(l1['price']):<9}")
         print()
     def orders(self,customer_orders=None):
@@ -60,14 +62,16 @@ class Order:
                 print("=============== Orders =============")
                 print('                Empty               ')
             else:
+                self.total_price = 0
+                self.total_items = 0
                 with open('order_lists.json','r') as f:
                     save_orders = json.load(f)
                     print("\n================== Shopping Cart ==================")
                     print(f'{"ITEM":>5}{"PRICE":>15}{"QTY":>13}{"TOTAL":>13} ')
                     for v in save_orders:
                         print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"]*v["price"]:,.2f}')
-                    self.total_price += int(v["count"]) * int(v["price"])
-                    self.total_items += int(v["count"])
+                        self.total_price += int(v["count"]) * int(v["price"])
+                        self.total_items += int(v["count"])
                     print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
                     print(f'Total Items: {self.total_items} ')
@@ -88,21 +92,13 @@ class Discount(Order):
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
                 self.discount_type = input('\n1.Normal\n2.Member\n3.Senior\nDiscount type (1-3): ')
-                if self.discount_type == "1":
-                    self.total_discount = self.total_price * normal_discount
+                discount_type_list = {"1":0.05,"2":0.1,"3":0.2}
+                if self.discount_type in discount_type_list:
+                    rate = discount_type_list[self.discount_type]
+                    self.total_discount = self.total_price * rate
                     self.total_discount_price = self.total_price - self.total_discount
-                    print(f'Discount({normal_discount*100:.0f}%): ${self.total_discount:,.2f}')
+                    print(f'Discount({rate*100:.0f}%): ${self.total_discount:,.2f}')
                     break
-                elif self.discount_type == "2":
-                     self.total_discount = self.total_price * member_discount
-                     self.total_discount_price = self.total_price - self.total_discount
-                     print(f'Discount({member_discount*100:.0f}%): ${self.total_discount:,.2f}')
-                     break
-                elif self.discount_type == "3":
-                     self.total_discount = self.total_price * senior_discount
-                     self.total_discount_price = self.total_price - self.total_discount
-                     print(f'Discount({senior_discount*100:.0f}%): ${self.total_discount:,.2f}')
-                     break
                 else:
                     print('Invalid ❌')
             elif disc == 'n':
@@ -115,13 +111,12 @@ class Payment(Discount):
     def __init__(self):
         super().__init__(total_discount=None,discount_type=None)
     def cash(self,userpayment=None):
-        discount_lists = [5, 10, 20]
         self.userpayment = userpayment
         self.discount()
         while True:
             try:
                 self.userpayment = int(input('Cash: $'))
-                if self.userpayment < self.total_price:
+                if self.userpayment < self.total_discount_price:
                     print('❌Insufficient fund')
                     continue
                 else:
