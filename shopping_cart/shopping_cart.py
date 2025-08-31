@@ -151,6 +151,12 @@ class Payment(Discount):
                     break
             except ValueError:
                 print(f'{self.userpayment} is invalid')
+class Vat(Payment):
+    def __init__(self,taxes):
+        super().__init__()
+        self.taxes = taxes
+    def cal_tax(self):
+
 
 if __name__ == "__main__":
 
