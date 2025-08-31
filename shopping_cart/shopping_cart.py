@@ -79,6 +79,7 @@ class Discount(Order):
     def __init__(self,total_discount=None,discount_type=None):
         super().__init__(numbers=None,counts=None,stored=None)
         self.total_discount = total_discount
+        self.discount_type = discount_type
     def discount(self):
         normal_discount = 0.05
         member_discount = 0.1
@@ -111,6 +112,8 @@ class Discount(Order):
             else:
                 print('Invalid ❌')
 class Payment(Discount):
+    def __init__(self):
+        super().__init__(total_discount=None,discount_type=None)
     def cash(self,userpayment=None):
         discount_lists = [5, 10, 20]
         self.userpayment = userpayment
@@ -133,8 +136,17 @@ class Payment(Discount):
                                 f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
                         print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
-                    #discount_options = [d for d in discount_lists if d == ]
-                    print(f'Discount(5%): -${self.total_discount:,.2f}')
+
+                    if self.discount_type == "1":
+                        print(f'Discount(5%): -${self.total_discount:,.2f}')
+                    elif self.discount_type == "2":
+                        print(f'Discount(10%): -${self.total_discount:,.2f}')
+                    elif self.discount_type == "3":
+                        print(f'Discount(20%): -${self.total_discount:,.2f}')
+                    else:
+                        self.discount_type = 0.00
+
+                    #print(f'Discount(5%): -${self.total_discount:,.2f}')
                     print(f'Grand Total: ${self.total_discount_price:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
