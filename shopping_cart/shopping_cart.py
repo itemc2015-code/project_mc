@@ -8,6 +8,7 @@ class Order:
         self.numbers = numbers
         self.counts = counts
         self.stored = stored
+        self.menu_lists = menu_lists
         self.counts = 0
         self.numbers = 0
         self.order_lists = []
@@ -15,6 +16,7 @@ class Order:
         self.total_price = 0
         self.subtotal = 0
         self.total_items = 0
+
 
         with open('cart_list.json', 'r') as f:
             self.lists = json.load(f)
@@ -25,7 +27,7 @@ class Order:
         print('-' * 48)
         for num, l1 in enumerate(self.lists):
             menulists1 = num + 1, l1['item'], l1['price']
-            menu_lists.append(menulists1)
+            self.menu_lists.append(menulists1)
             print(f"{num + 1:<10}       {l1['item']:<15}      ${str(l1['price']):<9}")
         print()
 
@@ -63,14 +65,16 @@ class Order:
                 print("=============== Orders =============")
                 print('                Empty               ')
             else:
+                self.total_price = 0
+                self.total_items = 0
                 with open('order_lists.json','r') as f:
                     save_orders = json.load(f)
                     print("\n================== Shopping Cart ==================")
                     print(f'{"ITEM":>5}{"PRICE":>15}{"QTY":>13}{"TOTAL":>13} ')
                     for v in save_orders:
                         print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"]*v["price"]:,.2f}')
-                    self.total_price += int(v["count"]) * int(v["price"])
-                    self.total_items += int(v["count"])
+                        self.total_price += int(v["count"]) * int(v["price"])
+                        self.total_items += int(v["count"])
                     print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
                     print(f'Total Items: {self.total_items} ')
@@ -79,35 +83,59 @@ class Order:
             print('File not found')
 
 class Discount(Order):
-    def __init__(self,total_discount=None):
+    def __init__(self,total_discount=None,discount_type=None):
+        super().__init__(numbers=None,counts=None,stored=None)
         self.total_discount = total_discount
+        self.discount_type = discount_type
+        self.discount_type_list = {"1": 0.05, "2": 0.1, "3": 0.2}
     def discount(self):
+        normal_discount = 0.05
+        member_discount = 0.1
+        senior_discount = 0.2
         while True:
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
-                self.total_discount = self.total_price * 0.05
-                self.total_price = self.total_price - self.total_discount
-                print(f'Discounted ${self.total_discount:,.2f}')
-                break
+                self.discount_type = input('\n1.Normal\n2.Member\n3.Senior\nDiscount type (1-3): ')
+                if self.discount_type in self.discount_type_list:
+                    rate = self.discount_type_list[self.discount_type]
+                    self.total_discount = self.total_price * rate
+                    self.total_discount_price = self.total_price - self.total_discount
+                    print(f'Discount({rate*100:.0f}%): ${self.total_discount:,.2f}')
+                    break
+                else:
+                    print('Invalid ❌')
             elif disc == 'n':
-                self.total_discount = 0.00
-                break
+                 self.total_discount = 0.00
+                 self.total_discount_price = self.total_price
+                 break
             else:
                 print('Invalid ❌')
 
-class Payment(Discount):
+class Vat(Discount):
+    def __init__(self,taxes=0):
+        super().__init__(total_discount=None,discount_type=None)
+        self.taxes = taxes
+    def cal_tax(self):
+        vat_type = {"1": 0.2, "2": 0.1, "3": 0.05}
+        if self.discount_type in vat_type:
+            vat = self.total_discount_price * vat_type[self.discount_type]
+            self.taxes = self.total_discount_price + vat
+
+class Payment(Vat):
+    def __init__(self):
+        super().__init__(taxes=0)
     def cash(self,userpayment=None):
         self.userpayment = userpayment
         self.discount()
         while True:
             try:
                 self.userpayment = int(input('Cash: $'))
-                if self.userpayment < self.total_price:
+                if self.userpayment < self.total_discount_price:
                     print('❌Insufficient fund')
                     continue
                 else:
                     os.system('cls')
-                    total = self.userpayment - self.total_price
+                    total = self.userpayment - self.total_discount_price
                     with open('order_lists.json', 'r') as f:
                         save_orders = json.load(f)
                         print("\n================== Shopping Cart ==================")
@@ -116,7 +144,15 @@ class Payment(Discount):
                             print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
                     print('=====================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
-                    print(f'Discounted: ${self.total_discount:,.2f}')
+
+                    if self.discount_type in self.discount_type_list:
+                        discount_type_output = self.discount_type_list[self.discount_type]
+                        print(f'Discount({discount_type_output*100:.0f}%): -${self.total_discount:,.2f}')
+                    else:
+                        self.discount_type = 0.00
+
+                    print(f'Tax: {self.taxes}')
+                    print(f'Grand Total: ${self.total_discount_price:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
                     print(f'Change: ${total:,.2f}')
@@ -142,5 +178,5 @@ if __name__ == "__main__":
         print('\nExiting...\n')
 
 '''
-
+create variable for discount
 '''

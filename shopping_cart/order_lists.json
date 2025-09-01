@@ -3,36 +3,24 @@
         "no": 1,
         "item": "Bread",
         "price": 50,
-        "count": 2
+        "count": 4
     },
     {
         "no": 2,
         "item": "Eggs",
         "price": 90,
-        "count": 3
+        "count": 34
     },
     {
         "no": 3,
-        "item": "Butter",
-        "price": 120,
-        "count": 5
-    },
-    {
-        "no": 4,
-        "item": "Eggs",
-        "price": 90,
-        "count": 3
-    },
-    {
-        "no": 5,
-        "item": "Chicken breast",
-        "price": 220,
+        "item": "Bread",
+        "price": 50,
         "count": 2
     },
     {
-        "no": 6,
-        "item": "Ground beef",
-        "price": 180,
-        "count": 3
+        "no": 4,
+        "item": "Cheese",
+        "price": 150,
+        "count": 2
     }
 ]
