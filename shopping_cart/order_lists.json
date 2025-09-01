@@ -13,14 +13,26 @@
     },
     {
         "no": 3,
+        "item": "Butter",
+        "price": 120,
+        "count": 5
+    },
+    {
+        "no": 4,
         "item": "Eggs",
         "price": 90,
         "count": 3
     },
     {
-        "no": 4,
-        "item": "Butter",
-        "price": 120,
+        "no": 5,
+        "item": "Chicken breast",
+        "price": 220,
         "count": 2
+    },
+    {
+        "no": 6,
+        "item": "Ground beef",
+        "price": 180,
+        "count": 3
     }
 ]
