@@ -100,7 +100,7 @@ class Discount(Order):
                     rate = self.discount_type_list[self.discount_type]
                     self.total_discount = self.total_price * rate
                     self.total_discount_price = self.total_price - self.total_discount
-                    print(f'Discount({rate*100:.0f}%): ${self.total_discount:,.2f}')
+                    #print(f'Discount({rate*100:.0f}%): ${self.total_discount:,.2f}')
                     break
                 else:
                     print('Invalid ❌')
@@ -112,15 +112,17 @@ class Discount(Order):
                 print('Invalid ❌')
 
 class Vat(Discount):
-    def __init__(self,taxes=0):
+    def __init__(self,taxes=0,vat=0,grandtotal=0):
         super().__init__(total_discount=None,discount_type=None)
         self.taxes = taxes
+        self.grandtotal = grandtotal
+        self.vat = vat
+        self.vat_type = {"1": 0.2, "2": 0.1, "3": 0.05}
     def cal_tax(self):
-        vat_type = {"1": 0.2, "2": 0.1, "3": 0.05}
-        if self.discount_type in vat_type:
-            vat = self.total_discount_price * vat_type[self.discount_type]
-            self.taxes = self.total_discount_price + vat
-
+        if self.discount_type in self.vat_type:
+            rate = self.discount_type_list[self.discount_type]
+            self.vat = self.total_discount_price * self.vat_type[self.discount_type]
+            self.grandtotal = self.total_discount_price + self.vat
 class Payment(Vat):
     def __init__(self):
         super().__init__(taxes=0)
@@ -151,8 +153,9 @@ class Payment(Vat):
                     else:
                         self.discount_type = 0.00
 
-                    print(f'Tax: {self.taxes}')
-                    print(f'Grand Total: ${self.total_discount_price:,.2f}')
+                    self.cal_tax()
+                    print(f'Tax ({self.vat_type[self.discount_type]*100:.0f}%): ${self.vat:,.2f}')
+                    print(f'Grand Total: ${self.grandtotal:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
                     print(f'Change: ${total:,.2f}')
@@ -178,5 +181,4 @@ if __name__ == "__main__":
         print('\nExiting...\n')
 
 '''
-create variable for discount
 '''
