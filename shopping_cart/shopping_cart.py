@@ -120,9 +120,13 @@ class Vat(Discount):
         self.vat_type = {"1": 0.2, "2": 0.1, "3": 0.05}
     def cal_tax(self):
         if self.discount_type in self.vat_type:
-            rate = self.discount_type_list[self.discount_type]
             self.vat = self.total_discount_price * self.vat_type[self.discount_type]
             self.grandtotal = self.total_discount_price + self.vat
+            print(f'Tax ({self.vat_type[self.discount_type] * 100:.0f}%): ${self.vat:,.2f}')
+        else:
+            self.vat = self.total_discount_price * 0
+            self.grandtotal = self.total_discount_price + self.vat
+            #print(f'Tax (3%): ${self.vat:,.2f}')
 class Payment(Vat):
     def __init__(self):
         super().__init__(taxes=0)
@@ -154,7 +158,6 @@ class Payment(Vat):
                         self.discount_type = 0.00
 
                     self.cal_tax()
-                    print(f'Tax ({self.vat_type[self.discount_type]*100:.0f}%): ${self.vat:,.2f}')
                     print(f'Grand Total: ${self.grandtotal:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
@@ -181,4 +184,7 @@ if __name__ == "__main__":
         print('\nExiting...\n')
 
 '''
+-wrong changed on cash
+-number to add cart and count, error invalid input not clearing to output
+-discount type invalid error not clearing also
 '''
