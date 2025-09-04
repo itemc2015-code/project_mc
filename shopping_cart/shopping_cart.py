@@ -3,6 +3,7 @@ import os
 import time
 
 menu_lists = []
+
 class Order:
     def __init__(self,numbers=None,counts=None,stored=None):
         self.numbers = numbers
@@ -16,7 +17,6 @@ class Order:
         self.total_price = 0
         self.subtotal = 0
         self.total_items = 0
-
 
         with open('cart_list.json', 'r') as f:
             self.lists = json.load(f)
@@ -37,9 +37,9 @@ class Order:
             if customer_orders == 'q':
                 self.order_storage.clear()
                 break
-            elif customer_orders == 'd':
-                print('===SUMMARY===')
-                break
+            # elif customer_orders == 'd':
+            #     print('===SUMMARY===')
+            #     break
             try:
                 customer_orders = int(customer_orders)
                 self.counts = int(input('Count: '))
@@ -83,15 +83,13 @@ class Order:
             print('File not found')
 
 class Discount(Order):
-    def __init__(self,total_discount=None,discount_type=None):
+    def __init__(self,total_discount_price=None,total_discount=None,discount_type=None):
         super().__init__(numbers=None,counts=None,stored=None)
         self.total_discount = total_discount
         self.discount_type = discount_type
+        self.total_discount_price = total_discount_price
         self.discount_type_list = {"1": 0.05, "2": 0.1, "3": 0.2}
     def discount(self):
-        normal_discount = 0.05
-        member_discount = 0.1
-        senior_discount = 0.2
         while True:
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
@@ -99,8 +97,8 @@ class Discount(Order):
                 if self.discount_type in self.discount_type_list:
                     rate = self.discount_type_list[self.discount_type]
                     self.total_discount = self.total_price * rate
-                    self.total_discount_price = self.total_price - self.total_discount
-                    print(f'Discount({rate*100:.0f}%): ${self.total_discount:,.2f}')
+                    discount_price = self.total_price - self.total_discount
+                    self.total_discount_price = discount_price
                     break
                 else:
                     print('Invalid ❌')
@@ -112,23 +110,24 @@ class Discount(Order):
                 print('Invalid ❌')
 
 class Vat(Discount):
-    def __init__(self,taxes=0,vat=0):
-        super().__init__(total_discount=None,discount_type=None)
-        self.grandtotal = taxes
+    def __init__(self,vat=0,grandtotal=0):
+        super().__init__(total_discount_price=None,total_discount=None,discount_type=None)
+        self.grandtotal = grandtotal
         self.vat = vat
-        self.vat_type = {"1": 0.2, "2": 0.1, "3": 0.05}
+        self.taxes = 0.05
     def cal_tax(self):
-        if self.discount_type in self.vat_type:
-            rate = self.discount_type_list[self.discount_type]
-            self.vat = self.total_price * self.vat_type[self.discount_type]
-            self.grandtotal = self.total_price-((self.total_price + self.vat)*rate)
-        else:
-            self.total_discount = 0.00
-            self.discount_type = 0.00
+        self.vat = self.total_discount_price * self.taxes
+        self.grandtotal = self.total_discount_price + self.vat
+
 class Payment(Vat):
     def __init__(self):
-        super().__init__(taxes=0)
+        super().__init__(vat=0,grandtotal=0)
     def cash(self,userpayment=None):
+        discount_type_output = self.discount_type_list[self.discount_type]
+        print(f'Discount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
+        print(f'Grand Total: ${self.grandtotal:,.2f}')
+        print(f'Total Items: {self.total_items} ')
+
         self.userpayment = userpayment
         self.discount()
         while True:
@@ -156,7 +155,6 @@ class Payment(Vat):
                         self.discount_type = 0.00
 
                     self.cal_tax()
-                    print(f'Tax: ${self.vat:,.2f}({self.vat_type[self.discount_type]*100:.0f}%)')
                     print(f'Grand Total: ${self.grandtotal:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
@@ -174,13 +172,25 @@ if __name__ == "__main__":
     order1 = Order()
     order1.menus()
     order1.orders()
+    disc1 = Discount()
+    disc1.total_price = order1.total_price
+    disc1.discount()
+    vat1 = Vat()
+    vat1.total_discount_price = disc1.total_discount_price
+    vat1.cal_tax()
 
     if order1.total_price > 0:
         pay1 = Payment()
         pay1.total_price = order1.total_price
+        pay1.discount_type_list = disc1.discount_type_list
+        pay1.discount_type = disc1.discount_type
+        pay1.total_discount = disc1.total_discount
         pay1.cash()
     else:
         print('\nExiting...\n')
 
 '''
+-wrong changed on cash
+-number to add cart and count, error invalid input not clearing to output
+-discount type invalid error not clearing also
 '''
