@@ -124,21 +124,24 @@ class Payment(Vat):
         super().__init__(vat=0,grandtotal=0)
     def cash(self,userpayment=None):
         discount_type_output = self.discount_type_list[self.discount_type]
-        print(f'Discount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
+        self.cal_tax()
+        self.view_order()
+        print(f'\nDiscount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
+        print(f'Tax(5%): ${self.vat:.2f}')
         print(f'Grand Total: ${self.grandtotal:,.2f}')
         print(f'Total Items: {self.total_items} ')
 
-        self.userpayment = userpayment
-        self.discount()
+        # self.userpayment = userpayment
+        # self.discount()
         while True:
             try:
                 self.userpayment = int(input('Cash: $'))
-                if self.userpayment < self.total_discount_price:
+                if self.userpayment < self.grandtotal:
                     print('❌Insufficient fund')
                     continue
                 else:
                     os.system('cls')
-                    total = self.userpayment - self.total_discount_price
+                    total = self.userpayment - self.grandtotal
                     with open('order_lists.json', 'r') as f:
                         save_orders = json.load(f)
                         print("\n================== Shopping Cart ==================")
@@ -155,6 +158,7 @@ class Payment(Vat):
                         self.discount_type = 0.00
 
                     self.cal_tax()
+                    print(f'Tax(5%): ${self.vat:.2f}')
                     print(f'Grand Total: ${self.grandtotal:,.2f}')
                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
                     print(f'Cash: ${self.userpayment:,.2f}')
@@ -182,9 +186,10 @@ if __name__ == "__main__":
     if order1.total_price > 0:
         pay1 = Payment()
         pay1.total_price = order1.total_price
-        pay1.discount_type_list = disc1.discount_type_list
-        pay1.discount_type = disc1.discount_type
         pay1.total_discount = disc1.total_discount
+        pay1.total_discount_price = disc1.total_discount_price
+        pay1.discount_type = disc1.discount_type
+        pay1.cal_tax()
         pay1.cash()
     else:
         print('\nExiting...\n')
