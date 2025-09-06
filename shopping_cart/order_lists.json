@@ -1,26 +1,14 @@
 [
     {
         "no": 1,
-        "item": "Butter",
-        "price": 120,
+        "item": "Bread",
+        "price": 50,
         "count": 4
     },
     {
         "no": 2,
         "item": "Eggs",
         "price": 90,
-        "count": 2323
-    },
-    {
-        "no": 3,
-        "item": "Oranges",
-        "price": 110,
-        "count": 5343
-    },
-    {
-        "no": 4,
-        "item": "Eggs",
-        "price": 90,
-        "count": 34343
+        "count": 3
     }
 ]
