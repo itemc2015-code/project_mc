@@ -3,12 +3,30 @@
         "no": 1,
         "item": "Bread",
         "price": 50,
-        "count": 4
+        "count": 534
     },
     {
         "no": 2,
-        "item": "Eggs",
-        "price": 90,
-        "count": 3
+        "item": "Potatoes",
+        "price": 60,
+        "count": 5353
+    },
+    {
+        "no": 3,
+        "item": "Onions",
+        "price": 70,
+        "count": 34343
+    },
+    {
+        "no": 4,
+        "item": "Sugar",
+        "price": 65,
+        "count": 35335
+    },
+    {
+        "no": 5,
+        "item": "Salt",
+        "price": 25,
+        "count": 34334
     }
 ]

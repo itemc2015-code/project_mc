@@ -126,10 +126,10 @@ class Payment(Vat):
         super().__init__(vat=0,grandtotal=0)
     def cash(self,userpayment=None):
         discount_type_output = self.discount_type_list[self.discount_type]
-        self.cal_tax()
+        #self.cal_tax()
         self.view_order()
         #print(f'\nDiscount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
-        print(f'\nDiscount({discount_type_output * 100:.0f}%"):-${self.total_discount:,.2f}'
+        print(f'Discount({discount_type_output * 100:.0f}%):-${self.total_discount:,.2f}'
               if discount_type_output > 0 else '\nDiscount:(N/A)')
         print(f'Tax(5%): ${self.vat:.2f}')
         print(f'Grand Total: ${self.grandtotal:,.2f}')
@@ -156,7 +156,7 @@ class Payment(Vat):
                     if self.discount_type in self.discount_type_list:
                         discount_type_output = self.discount_type_list[self.discount_type]
                         #print(f'Discount({discount_type_output*100:.0f}%): -${self.total_discount:,.2f}')
-                        print(f'\nDiscount({discount_type_output * 100:.0f}%"):-${self.total_discount:,.2f}'
+                        print(f'Discount({discount_type_output * 100:.0f}%):-${self.total_discount:,.2f}'
                               if discount_type_output > 0 else '\nDiscount:(N/A)')
                     else:
                         self.discount_type = 0.00
