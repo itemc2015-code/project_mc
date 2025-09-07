@@ -63,7 +63,6 @@ class Order:
         with open('order_lists.json','w') as f:
             json.dump(self.order_storage,f,indent=4)
         self.view_order()
-
     def view_order(self):
         if os.path.exists('order_lists.json'):
             if os.path.getsize('order_lists.json') == 0:
@@ -90,15 +89,19 @@ class Order:
         while True:
             try:
                 remove_item = int(input('Remove item: '))
-                if remove_item in self.order_lists:
+                if 1 <= remove_item <= len(self.order_lists):
                     self.order_lists.pop(remove_item-1)
+
+                    for ol in self.order_lists:
+                        #self.stored = {ol[0]}
+                        print(self.stored)
+
                     print(self.order_lists)
+                    print(self.order_storage)
                 else:
                     print('Not found ❌')
             except ValueError:
                 print('Invalid ❌')
-
-
 class Discount(Order):
     def __init__(self,total_discount_price=None,total_discount=None,discount_type=None,have_discount=None):
         super().__init__(numbers=None,counts=None,stored=None)

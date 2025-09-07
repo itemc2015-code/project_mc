@@ -7,8 +7,14 @@
     },
     {
         "no": 2,
+        "item": "Chicken breast",
+        "price": 220,
+        "count": 7
+    },
+    {
+        "no": 3,
         "item": "Eggs",
         "price": 90,
-        "count": 3
+        "count": 1
     }
 ]
