@@ -3,30 +3,36 @@
         "no": 1,
         "item": "Bread",
         "price": 50,
-        "count": 534
+        "count": 2
     },
     {
         "no": 2,
-        "item": "Potatoes",
-        "price": 60,
-        "count": 5353
+        "item": "Bread",
+        "price": 50,
+        "count": 4
     },
     {
         "no": 3,
-        "item": "Onions",
-        "price": 70,
-        "count": 34343
+        "item": "Cheese",
+        "price": 150,
+        "count": 2
     },
     {
         "no": 4,
-        "item": "Sugar",
-        "price": 65,
-        "count": 35335
+        "item": "Bread",
+        "price": 50,
+        "count": 4
     },
     {
         "no": 5,
-        "item": "Salt",
-        "price": 25,
-        "count": 34334
+        "item": "Cheese",
+        "price": 150,
+        "count": 3
+    },
+    {
+        "no": 6,
+        "item": "Butter",
+        "price": 120,
+        "count": 3
     }
 ]
