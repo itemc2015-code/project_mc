@@ -90,9 +90,6 @@ class Discount(Order):
         self.total_discount_price = total_discount_price
         self.discount_type_list = {"1": 0.05, "2": 0.1, "3": 0.2}
     def discount(self):
-        # normal_discount = 0.05
-        # member_discount = 0.1
-        # senior_discount = 0.2
         while True:
             disc = input('Discount (y/n): ').lower()
             if disc == 'y':
@@ -117,56 +114,59 @@ class Vat(Discount):
         super().__init__(total_discount_price=None,total_discount=None,discount_type=None)
         self.grandtotal = grandtotal
         self.vat = vat
-        self.taxes = float(0.05)
+        self.taxes = 0.05
     def cal_tax(self):
         self.vat = self.total_discount_price * self.taxes
         self.grandtotal = self.total_discount_price + self.vat
-        print(f'Tax ({self.taxes}%): ${self.vat:,.2f}')
-        print(f'Grand Total: ${self.grandtotal:,.2f}')
-        print(f'Total Items: {self.total_items}')
 
-# class Payment(Vat):
-#     def __init__(self):
-#         super().__init__(vat=0,grandtotal=0)
-#     def cash(self,userpayment=None):
-#         self.userpayment = userpayment
-#         self.discount()
-#         while True:
-#             try:
-#                 self.userpayment = int(input('Cash: $'))
-#                 if self.userpayment < self.total_discount_price:
-#                     print('❌Insufficient fund')
-#                     continue
-#                 else:
-#                     os.system('cls')
-#                     total = self.userpayment - self.total_discount_price
-#                     with open('order_lists.json', 'r') as f:
-#                         save_orders = json.load(f)
-#                         print("\n================== Shopping Cart ==================")
-#                         print(f'{"ITEM":>5}{"PRICE":>15}{"QTY":>13}{"TOTAL":>13} ')
-#                         for v in save_orders:
-#                             print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
-#                     print('=====================================================')
-#                     print(f'Sub Total: ${self.total_price:,.2f}')
-#
-#                     if self.discount_type in self.discount_type_list:
-#                         discount_type_output = self.discount_type_list[self.discount_type]
-#                         print(f'Discount({discount_type_output*100:.0f}%): -${self.total_discount:,.2f}')
-#                     else:
-#                         self.discount_type = 0.00
-#
-#                     self.cal_tax()
-#                     print(f'Grand Total: ${self.grandtotal:,.2f}')
-#                     print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
-#                     print(f'Cash: ${self.userpayment:,.2f}')
-#                     print(f'Change: ${total:,.2f}')
-#                     print('               -------------------------    ')
-#                     print('                Thank you for shopping 🛒\n')
-#                     self.total_price = 0
-#                     self.total_items = 0
-#                     break
-#             except ValueError:
-#                 print(f'{self.userpayment} is invalid')
+class Payment(Vat):
+    def __init__(self):
+        super().__init__(vat=0,grandtotal=0)
+    def cash(self,userpayment=None):
+        discount_type_output = self.discount_type_list[self.discount_type]
+        print(f'\nDiscount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
+        print(f'VAT(5%): ${self.vat:.2f}')
+        print(f'Total Items: {self.total_items} ')
+        print(f'Grand Total: ${self.grandtotal:,.2f}')
+
+        self.userpayment = userpayment
+        self.discount()
+        while True:
+            try:
+                self.userpayment = int(input('Cash: $'))
+                if self.userpayment < self.total_discount_price:
+                    print('❌Insufficient fund')
+                    continue
+                else:
+                    os.system('cls')
+                    total = self.userpayment - self.total_discount_price
+                    with open('order_lists.json', 'r') as f:
+                        save_orders = json.load(f)
+                        print("\n================== Shopping Cart ==================")
+                        print(f'{"ITEM":>5}{"PRICE":>15}{"QTY":>13}{"TOTAL":>13} ')
+                        for v in save_orders:
+                            print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"] * v["price"]:,.2f}')
+                    print('=====================================================')
+                    print(f'Sub Total: ${self.total_price:,.2f}')
+
+                    if self.discount_type in self.discount_type_list:
+                        discount_type_output = self.discount_type_list[self.discount_type]
+                        print(f'Discount({discount_type_output*100:.0f}%): -${self.total_discount:,.2f}')
+                    else:
+                        self.discount_type = 0.00
+
+                    self.cal_tax()
+                    print(f'Grand Total: ${self.grandtotal:,.2f}')
+                    print(f'Total Items: {sum((v["count"]) for v in save_orders)} ')
+                    print(f'Cash: ${self.userpayment:,.2f}')
+                    print(f'Change: ${total:,.2f}')
+                    print('               -------------------------    ')
+                    print('                Thank you for shopping 🛒\n')
+                    self.total_price = 0
+                    self.total_items = 0
+                    break
+            except ValueError:
+                print(f'{self.userpayment} is invalid')
 
 if __name__ == "__main__":
 
@@ -175,15 +175,23 @@ if __name__ == "__main__":
     vat1 = Vat()
     order1.menus()
     order1.orders()
+    disc1 = Discount()
+    disc1.total_price = order1.total_price
     disc1.discount()
+    vat1 = Vat()
+    vat1.total_discount_price = disc1.total_discount_price
     vat1.cal_tax()
-    #
-    # if order1.total_price > 0:
-    #     pay1 = Payment()
-    #     pay1.total_price = order1.total_price
-    #     pay1.cash()
-    # else:
-    #     print('\nExiting...\n')
+
+    if order1.total_price > 0:
+        pay1 = Payment()
+        pay1.total_price = order1.total_price
+        pay1.discount_type_list = disc1.discount_type_list
+        pay1.discount_type = disc1.discount_type
+        pay1.total_discount = disc1.total_discount
+        pay1.cash()
+    else:
+        print('\nExiting...\n')
+
 
 '''
 -wrong changed on cash

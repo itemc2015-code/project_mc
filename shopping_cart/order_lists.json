@@ -1,14 +1,20 @@
 [
     {
         "no": 1,
-        "item": "Butter",
-        "price": 120,
-        "count": 3
+        "item": "Bread",
+        "price": 50,
+        "count": 2
     },
     {
         "no": 2,
-        "item": "Chicken breast",
-        "price": 220,
+        "item": "Cheese",
+        "price": 150,
         "count": 2
+    },
+    {
+        "no": 3,
+        "item": "Butter",
+        "price": 120,
+        "count": 1
     }
 ]
