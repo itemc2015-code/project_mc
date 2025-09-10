@@ -33,13 +33,17 @@ class Order:
 
     def orders(self,customer_orders=None):
         while True:
-            customer_orders = input('Number to add to cart🛒, "q" for done: ')
+            customer_orders = input('Number to add to cart🛒, "d"/delete, "q"/done: ')
             if customer_orders == 'q':
                 self.order_storage.clear()
                 break
-            # elif customer_orders == 'd':
-            #     print('===SUMMARY===')
-            #     break
+            elif customer_orders == 'd':
+                if len(self.order_lists) == 0:
+                    print('Cart is empty 🛒')
+                    continue
+                else:
+                    self.delete_order()
+                    break
             try:
                 customer_orders = int(customer_orders)
                 self.counts = int(input('Count: '))
@@ -58,7 +62,6 @@ class Order:
         with open('order_lists.json','w') as f:
             json.dump(self.order_storage,f,indent=4)
         self.view_order()
-
     def view_order(self):
         if os.path.exists('order_lists.json'):
             if os.path.getsize('order_lists.json') == 0:
@@ -69,18 +72,44 @@ class Order:
                 self.total_items = 0
                 with open('order_lists.json','r') as f:
                     save_orders = json.load(f)
-                    print("\n================== Shopping Cart ==================")
-                    print(f'{"ITEM":>5}{"PRICE":>15}{"QTY":>13}{"TOTAL":>13} ')
+                    print("\n==================== Shopping Cart =====================")
+                    print(f'{"ITEM":>8}{"PRICE":>20}{"QTY":>10}{"TOTAL":>13} ')
                     for v in save_orders:
-                        print(f'{v["item"].ljust(15)}${v["price"]:<14,.2f}{str(v["count"]).ljust(10)} ${v["count"]*v["price"]:,.2f}')
+                        print(f'{v["no"]:<3}{v["item"].ljust(19)}${v["price"]:<13,.2f}{str(v["count"]).ljust(8)} ${v["count"]*v["price"]:,.2f}')
                         self.total_price += int(v["count"]) * int(v["price"])
                         self.total_items += int(v["count"])
-                    print('=====================================================')
+                    print('========================================================')
                     print(f'Sub Total: ${self.total_price:,.2f}')
                     print(f'Total Items: {self.total_items} ')
                     print()
         else:
             print('File not found')
+    def delete_order(self):
+        while True:
+            try:
+                remove_item = int(input('Remove item: '))
+                if 1 <= remove_item <= len(self.order_storage):
+                    self.order_storage.pop(remove_item-1)
+                    #print(self.order_storage) ##just to check the output
+                    with open('order_lists.json','w+') as f:
+                        json.dump(self.order_storage, f, indent=4)
+
+                        orders_deleted = json.load(f)
+                        print("\n==================== Shopping Cart =====================")
+                        print(f'{"ITEM":>8}{"PRICE":>20}{"QTY":>10}{"TOTAL":>13} ')
+                        for v in orders_deleted:
+                            print(f'{v["no"]:<3}{v["item"].ljust(19)}${v["price"]:<13,.2f}{str(v["count"]).ljust(8)}${v["count"]*v["price"]:,.2f}')
+                            self.total_price += int(v["count"]) * int(v["price"])
+                            self.total_items += int(v["count"])
+                        print('========================================================')
+                        print(f'Sub Total: ${self.total_price:,.2f}')
+                        print(f'Total Items: {self.total_items} ')
+                        print()
+
+                else:
+                    print('Not found ❌')
+            except ValueError:
+                print('Invalid ❌')
 
 class Discount(Order):
     def __init__(self,total_discount_price=None,total_discount=None,discount_type=None,have_discount=None):
@@ -203,5 +232,5 @@ if __name__ == "__main__":
 
 
 '''
-
+when quiting early, asking for discount
 '''

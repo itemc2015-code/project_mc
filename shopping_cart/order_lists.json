@@ -3,48 +3,18 @@
         "no": 1,
         "item": "Bread",
         "price": 50,
-        "count": 2
-    },
-    {
-        "no": 2,
-<<<<<<< HEAD
-        "item": "Cheese",
-        "price": 150,
-        "count": 2
-    },
-    {
-        "no": 3,
-        "item": "Butter",
-        "price": 120,
-        "count": 1
-=======
-        "item": "Bread",
-        "price": 50,
         "count": 4
     },
     {
         "no": 3,
-        "item": "Cheese",
-        "price": 150,
-        "count": 2
+        "item": "Ground beef",
+        "price": 180,
+        "count": 8
     },
     {
         "no": 4,
-        "item": "Bread",
-        "price": 50,
-        "count": 4
-    },
-    {
-        "no": 5,
-        "item": "Cheese",
-        "price": 150,
-        "count": 3
-    },
-    {
-        "no": 6,
-        "item": "Butter",
-        "price": 120,
-        "count": 3
->>>>>>> 3735ea6ecd48962c94250caaa80979fdc4b33cd3
+        "item": "Pasta",
+        "price": 85,
+        "count": 1
     }
 ]
