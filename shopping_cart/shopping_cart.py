@@ -224,7 +224,18 @@ class Payment(Vat):
 
 if __name__ == "__main__":
 
+    pay1 = Payment()
+    pay1.menus()
+    pay1.orders()
+    pay1.discount()
+    pay1.cal_tax()
 
+    if pay1.total_price > 0:
+        pay1.discount()
+        pay1.cal_tax()
+        pay1.cash()
+    else:
+        print('\nExiting...\n')
 
     # order1 = Order()
     # disc1 = Discount()
