@@ -1,26 +1,38 @@
 [
     {
         "no": 1,
-        "item": "Bread",
-        "price": 50,
-        "count": 3
+        "item": "Milk",
+        "price": 60,
+        "count": 2
+    },
+    {
+        "no": 1,
+        "item": "Milk",
+        "price": 60,
+        "count": 4
     },
     {
         "no": 2,
-        "item": "Butter",
-        "price": 120,
-        "count": 5
+        "item": "Bread",
+        "price": 50,
+        "count": 4
     },
     {
-        "no": 4,
-        "item": "Ground beef",
-        "price": 180,
-        "count": 8
+        "no": 1,
+        "item": "Milk",
+        "price": 60,
+        "count": 6
     },
     {
-        "no": 5,
-        "item": "Pasta",
-        "price": 85,
-        "count": 2
+        "no": 2,
+        "item": "Bread",
+        "price": 50,
+        "count": 6
+    },
+    {
+        "no": 3,
+        "item": "Cheese",
+        "price": 150,
+        "count": 6
     }
 ]
