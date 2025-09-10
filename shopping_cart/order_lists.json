@@ -3,18 +3,24 @@
         "no": 1,
         "item": "Bread",
         "price": 50,
-        "count": 4
+        "count": 3
     },
     {
-        "no": 3,
+        "no": 2,
+        "item": "Butter",
+        "price": 120,
+        "count": 5
+    },
+    {
+        "no": 4,
         "item": "Ground beef",
         "price": 180,
         "count": 8
     },
     {
-        "no": 4,
+        "no": 5,
         "item": "Pasta",
         "price": 85,
-        "count": 1
+        "count": 2
     }
 ]

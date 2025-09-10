@@ -42,8 +42,11 @@ class Order:
                     print('Cart is empty 🛒')
                     continue
                 else:
-                    self.delete_order()
-                    break
+                    if input('Proceed deleting (y or any key to exit): ').lower().strip() == 'y':
+                        self.delete_order()
+                        break
+                    else:
+                        continue
             try:
                 customer_orders = int(customer_orders)
                 self.counts = int(input('Count: '))
@@ -85,27 +88,26 @@ class Order:
         else:
             print('File not found')
     def delete_order(self):
-        while True:
+        is_running = True
+        while is_running:
             try:
                 remove_item = int(input('Remove item: '))
                 if 1 <= remove_item <= len(self.order_storage):
                     self.order_storage.pop(remove_item-1)
-                    #print(self.order_storage) ##just to check the output
+                    #print(self.order_storage) #for out put checking only
                     with open('order_lists.json','w+') as f:
-                        json.dump(self.order_storage, f, indent=4)
-
-                        orders_deleted = json.load(f)
+                        json.dump(self.order_storage,f,indent=4)
                         print("\n==================== Shopping Cart =====================")
                         print(f'{"ITEM":>8}{"PRICE":>20}{"QTY":>10}{"TOTAL":>13} ')
-                        for v in orders_deleted:
-                            print(f'{v["no"]:<3}{v["item"].ljust(19)}${v["price"]:<13,.2f}{str(v["count"]).ljust(8)}${v["count"]*v["price"]:,.2f}')
+                        for num, v in enumerate(self.order_storage):
+                            print(f'{num+1:<3} {v["item"].ljust(19)}${v["price"]:<12,.2f}{str(v["count"]).ljust(8)} ${v["count"] * v["price"]:,.2f}')
                             self.total_price += int(v["count"]) * int(v["price"])
                             self.total_items += int(v["count"])
                         print('========================================================')
                         print(f'Sub Total: ${self.total_price:,.2f}')
                         print(f'Total Items: {self.total_items} ')
                         print()
-
+                        is_running = False
                 else:
                     print('Not found ❌')
             except ValueError:
@@ -232,5 +234,4 @@ if __name__ == "__main__":
 
 
 '''
-when quiting early, asking for discount
 '''
