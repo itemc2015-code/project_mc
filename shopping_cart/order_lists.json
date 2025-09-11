@@ -1,38 +1,8 @@
 [
     {
-        "no": 1,
-        "item": "Milk",
-        "price": 60,
-        "count": 2
-    },
-    {
-        "no": 1,
-        "item": "Milk",
-        "price": 60,
-        "count": 4
-    },
-    {
         "no": 2,
-        "item": "Bread",
-        "price": 50,
-        "count": 4
-    },
-    {
-        "no": 1,
-        "item": "Milk",
-        "price": 60,
-        "count": 6
-    },
-    {
-        "no": 2,
-        "item": "Bread",
-        "price": 50,
-        "count": 6
-    },
-    {
-        "no": 3,
-        "item": "Cheese",
-        "price": 150,
-        "count": 6
+        "item": "Butter",
+        "price": 120,
+        "count": 3
     }
 ]
