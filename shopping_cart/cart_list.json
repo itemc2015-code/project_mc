@@ -1,0 +1,22 @@
+[
+  {"item": "Milk", "quantity": 1, "unit": "liter", "category": "Dairy", "price": 60},
+  {"item": "Eggs", "quantity": 12, "unit": "pcs", "category": "Grocery", "price": 90},
+  {"item": "Bread", "quantity": 1, "unit": "loaf", "category": "Bakery", "price": 50},
+  {"item": "Butter", "quantity": 250, "unit": "g", "category": "Dairy", "price": 120},
+  {"item": "Cheese", "quantity": 200, "unit": "g", "category": "Dairy", "price": 150},
+  {"item": "Chicken breast", "quantity": 1, "unit": "kg", "category": "Meat", "price": 220},
+  {"item": "Ground beef", "quantity": 500, "unit": "g", "category": "Meat", "price": 180},
+  {"item": "Rice", "quantity": 2, "unit": "kg", "category": "Grains", "price": 100},
+  {"item": "Pasta", "quantity": 500, "unit": "g", "category": "Grains", "price": 85},
+  {"item": "Tomatoes", "quantity": 6, "unit": "pcs", "category": "Vegetables", "price": 40},
+  {"item": "Potatoes", "quantity": 1, "unit": "kg", "category": "Vegetables", "price": 60},
+  {"item": "Onions", "quantity": 1, "unit": "kg", "category": "Vegetables", "price": 70},
+  {"item": "Apples", "quantity": 6, "unit": "pcs", "category": "Fruits", "price": 120},
+  {"item": "Bananas", "quantity": 12, "unit": "pcs", "category": "Fruits", "price": 90},
+  {"item": "Oranges", "quantity": 6, "unit": "pcs", "category": "Fruits", "price": 110},
+  {"item": "Sugar", "quantity": 1, "unit": "kg", "category": "Grocery", "price": 65},
+  {"item": "Salt", "quantity": 500, "unit": "g", "category": "Grocery", "price": 25},
+  {"item": "Coffee", "quantity": 200, "unit": "g", "category": "Beverage", "price": 160},
+  {"item": "Tea", "quantity": 20, "unit": "bags", "category": "Beverage", "price": 70},
+  {"item": "Cooking oil", "quantity": 1, "unit": "liter", "category": "Grocery", "price": 150}
+]
