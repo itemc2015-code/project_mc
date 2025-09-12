@@ -1,3 +1,5 @@
+#shopping cart v2
+
 import json
 import os
 import time
@@ -59,8 +61,11 @@ class Order:
                 print('❌ Invalid input')
                 continue
     def list_order(self):
+        order_number = 0
         o = self.order_lists[-1]
-        self.stored = {"no":len(self.order_lists)+1,"item":o[1],"price":o[2],"count":self.counts}
+        numbering = len(self.order_lists)
+        self.stored = {"no":numbering,"item":o[1],"price":o[2],"count":self.counts}
+        numbering[0]
         self.order_storage.append(self.stored)
         with open('order_lists.json','w') as f:
             json.dump(self.order_storage,f,indent=4)
@@ -68,7 +73,7 @@ class Order:
 
         # for num,o in enumerate(self.order_lists):
         #     self.stored = {"no":num+1,"item":o[1],"price":o[2],"count":self.counts}
-        #     self.order_storage.append(self.stored)
+        # self.order_storage.append(self.stored)
         # with open('order_lists.json','w') as f:
         #     json.dump(self.order_storage,f,indent=4)
         # self.view_order()
@@ -82,21 +87,21 @@ class Order:
                 self.total_price = 0
                 self.total_items = 0
                 with open('order_lists.json','r') as f:
-                    save_orders = json.load(f)
-                try:
-                    save_orders = json.load(f)
-                    print("\n==================== Shopping Cart =====================")
-                    print(f'{"ITEM":>8}{"PRICE":>20}{"QTY":>10}{"TOTAL":>13} ')
-                    for v in save_orders:
-                        print(f'{v["no"]:<3}{v["item"].ljust(19)}${v["price"]:<13,.2f}{str(v["count"]).ljust(8)} ${v["count"]*v["price"]:,.2f}')
-                        self.total_price += int(v["count"]) * int(v["price"])
-                        self.total_items += int(v["count"])
-                    print('========================================================')
-                    print(f'Sub Total: ${self.total_price:,.2f}')
-                    print(f'Total Items: {self.total_items} ')
-                    print()
-                except:
-                    print('Invalid, Not found')
+                    #save_orders = json.load(f)
+                    try:
+                        save_orders = json.load(f)
+                        print("\n==================== Shopping Cart =====================")
+                        print(f'{"ITEM":>8}{"PRICE":>20}{"QTY":>10}{"TOTAL":>13} ')
+                        for v in save_orders:
+                            print(f'{v["no"]:<3}{v["item"].ljust(19)}${v["price"]:<13,.2f}{str(v["count"]).ljust(8)} ${v["count"]*v["price"]:,.2f}')
+                            self.total_price += int(v["count"]) * int(v["price"])
+                            self.total_items += int(v["count"])
+                        print('========================================================')
+                        print(f'Sub Total: ${self.total_price:,.2f}')
+                        print(f'Total Items: {self.total_items} ')
+                        print()
+                    except:
+                        print('Invalid, Not found')
 
         else:
             print('File not found')
@@ -107,6 +112,9 @@ class Order:
                 remove_item = int(input('Remove item: '))
                 if 1 <= remove_item <= len(self.order_storage):
                     self.order_storage.pop(remove_item-1)
+                    self.total_price = 0
+                    self.total_items = 0
+
                     #print(self.order_storage) #for out put checking only
                     with open('order_lists.json','w+') as f:
                         json.dump(self.order_storage,f,indent=4)
@@ -120,9 +128,11 @@ class Order:
                         print(f'Sub Total: ${self.total_price:,.2f}')
                         print(f'Total Items: {self.total_items} ')
                         print()
+                        self.orders()
                         self.total_price = 0
                         self.total_items = 0
-                        is_running = False
+                        #is_running = False
+
                 else:
                     print('Not found ❌')
             except ValueError:
@@ -176,7 +186,7 @@ class Payment(Vat):
         self.view_order()
         #print(f'\nDiscount({discount_type_output * 100:.0f}%): -${self.total_discount:,.2f}')
         print(f'Discount({discount_type_output * 100:.0f}%):-${self.total_discount:,.2f}'
-              if discount_type_output > 0 else '\nDiscount:(N/A)')
+              if discount_type_output > 0 else 'Discount:(N/A)')
         print(f'Tax(5%): ${self.vat:.2f}')
         print(f'Grand Total: ${self.grandtotal:,.2f}')
         print(f'Total Items: {self.total_items} ')
@@ -204,7 +214,7 @@ class Payment(Vat):
                         discount_type_output = self.discount_type_list[self.discount_type]
                         #print(f'Discount({discount_type_output*100:.0f}%): -${self.total_discount:,.2f}')
                         print(f'Discount({discount_type_output * 100:.0f}%):-${self.total_discount:,.2f}'
-                              if discount_type_output > 0 else '\nDiscount:(N/A)')
+                              if discount_type_output > 0 else 'Discount:(N/A)')
                     else:
                         self.discount_type = 0.00
 
@@ -222,6 +232,22 @@ class Payment(Vat):
             except ValueError:
                 print(f'{self.userpayment} is invalid')
 
+    def order_again(self):
+        while True:
+            again = input('Enter another order (y/n): ').lower().strip()
+            if again == 'y':
+                self.order_lists.clear()
+                self.menus()
+                self.orders()
+                self.discount()
+                self.cash()
+            elif again == 'n':
+                print('                \nThank you for shopping 🛒')
+                print('Goodbye 👋\n')
+                break
+            else:
+                print('Invalid input')
+
 if __name__ == "__main__":
 
     pay1 = Payment()
@@ -231,35 +257,10 @@ if __name__ == "__main__":
     pay1.cal_tax()
 
     if pay1.total_price > 0:
-        pay1.discount()
+        #pay1.discount()
         pay1.cal_tax()
         pay1.cash()
+        pay1.order_again()
     else:
         print('\nExiting...\n')
 
-    # order1 = Order()
-    # disc1 = Discount()
-    # vat1 = Vat()
-    # order1.menus()
-    # order1.orders()
-    # disc1 = Discount()
-    # disc1.total_price = order1.total_price
-    # disc1.discount()
-    # vat1 = Vat()
-    # #vat1.total_discount_price = disc1.total_discount_price
-    # vat1.cal_tax()
-    #
-    # if order1.total_price > 0:
-    #     pay1 = Payment()
-    #     pay1.total_price = order1.total_price
-    #     pay1.total_discount = disc1.total_discount
-    #     pay1.total_discount_price = disc1.total_discount_price
-    #     pay1.discount_type = disc1.discount_type
-    #     pay1.cal_tax()
-    #     pay1.cash()
-    # else:
-    #     print('\nExiting...\n')
-
-'''
-ask to shop again
-'''
